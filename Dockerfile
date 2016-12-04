@@ -10,12 +10,12 @@ ENV GRAFANA_VERSION="4.0.1" \
 
 ADD root /
 RUN yum -y install https://grafanarel.s3.amazonaws.com/builds/grafana-"$GRAFANA_VERSION"-"$GRAFANA_BUILD".x86_64.rpm && \
+    yum -y install wget unzip && \
     yum clean all && \
     wget https://github.com/hawkular/hawkular-grafana-datasource/archive/release.zip -O hawkular-grafana-datasource-release.zip && \
     unzip hawkular-grafana-datasource-release.zip && \
     mkdir ${GRAFANA_PLUGINS}/hawkular && \
     cp -R hawkular-grafana-datasource-release/dist/* ${GRAFANA_PLUGINS}/hawkular
-
 
 COPY run.sh /usr/share/grafana/
 RUN /usr/bin/fix-permissions /usr/share/grafana \
